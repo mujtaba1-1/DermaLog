@@ -1,0 +1,9 @@
+.prettirrc
+.expo/
+assets/
+node_modules/
+package.json
+package-lock.json
+.gitignore
+eslint.config.js
+app.json
