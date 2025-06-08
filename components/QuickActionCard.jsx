@@ -1,4 +1,4 @@
-import { StyleSheet, Text, View, Pressable } from 'react-native'
+import { StyleSheet, Text, View, Pressable, Dimensions } from 'react-native'
 import { Ionicons } from '@expo/vector-icons';
 import { LinearGradient } from 'expo-linear-gradient';
 import React from 'react'
@@ -27,16 +27,19 @@ const quickActions = {
 
 const QuickActionCard = ({ actionKey, onPress }) => {
   const action = quickActions[actionKey];
-  const dimension = 100 / quickActions.items + '%';
 
   if (!action) return null;
+
+  const screenWidth = Dimensions.get('window').width;
+  const availableWidth = screenWidth - 32 - (quickActions.items - 1) * 8; // Subtracting padding and gap
+  const cardWidth = availableWidth / quickActions.items;
 
   return (
     <Pressable
      onPress={onPress}
      style={({ pressed }) => [
        styles.card,
-       { backgroundColor: action.color, width: dimension, aspectRatio: 1 },
+       { backgroundColor: action.color, width: cardWidth },
        pressed && styles.pressed
      ]}
     >
@@ -60,8 +63,7 @@ export default QuickActionCard;
 const styles = StyleSheet.create({
   card: {
     borderRadius: 12,
-    overflow: 'hidden',
-    marginBottom: 16,
+    overflow: 'hidden'
   },
   pressed: {
     opacity: 0.8
