@@ -1,5 +1,6 @@
 {
   "expo": {
+    "scheme": "eczema-tracker",
     "name": "Eczema-Tracker",
     "slug": "Eczema-Tracker",
     "version": "1.0.0",

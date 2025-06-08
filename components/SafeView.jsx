@@ -15,11 +15,13 @@ const SafeView = ({style, safe=false, ...props}) => {
           paddingBottom: insets.bottom,
           paddingLeft: insets.left,
           paddingRight: insets.right,
+          backgroundColor: 'red'
         },
         style,
       ]}
       {...props}
-    />
+    >
+    </View>
   );
 }
 

@@ -1,7 +1,8 @@
-import { StyleSheet, Text, View, Pressable, Dimensions } from 'react-native'
+import { StyleSheet, Text, View, Pressable, Dimensions } from 'react-native';
 import { Ionicons } from '@expo/vector-icons';
 import { LinearGradient } from 'expo-linear-gradient';
-import React from 'react'
+import React from 'react';
+import { useRouter } from 'expo-router';  
 
 const quickActions = {
   items: 3,
@@ -9,51 +10,59 @@ const quickActions = {
     icon: 'camera-outline',
     title: 'Skin Analysis',
     colorOne: '#A652F6',
-    colorTwo: '#9435EB'
+    colorTwo: '#9435EB',
+    route: '/analysis'  
   },
   logs: {
     icon: 'add-outline',
     title: 'Log Symptoms',
     colorOne: '#397FF5',
-    colorTwo: '#2766EC'
+    colorTwo: '#2766EC',
+    route: '/logs'  
   },
   progress: {
     icon: 'trending-up-outline',
     title: 'Track Progress',
     colorOne: '#21C25D',
-    colorTwo: '#17A64C'
+    colorTwo: '#17A64C',
+    route: '/progress'  
   }
 };
 
-const QuickActionCard = ({ actionKey, onPress }) => {
+const QuickActionCard = ({ actionKey }) => {
   const action = quickActions[actionKey];
+  const router = useRouter();  
 
   if (!action) return null;
 
   const screenWidth = Dimensions.get('window').width;
-  const availableWidth = screenWidth - 32 - (quickActions.items - 1) * 8; // Subtracting padding and gap
+  const availableWidth = screenWidth - 32 - (quickActions.items - 1) * 8;
   const cardWidth = availableWidth / quickActions.items;
 
   return (
     <Pressable
-     onPress={onPress}
-     style={({ pressed }) => [
-       styles.card,
-       { backgroundColor: action.color, width: cardWidth },
-       pressed && styles.pressed
-     ]}
+      onPress={() => {
+        if (action.route) {
+          router.push(action.route);  
+        }
+      }}
+      style={({ pressed }) => [
+        styles.card,
+        { width: cardWidth },
+        pressed && styles.pressed
+      ]}
     >
-        <LinearGradient
-          colors={[action.colorOne, action.colorTwo]}
-          start={{ x: 0, y: 0 }}
-          end={{ x: 1, y: 1 }}
-          style={styles.gradient}
-        >
-            <Ionicons name={action.icon} size={24} color="#fff" />
-            <View>
-            <Text style={styles.title}>{action.title}</Text>
-            </View>
-        </LinearGradient>
+      <LinearGradient
+        colors={[action.colorOne, action.colorTwo]}
+        start={{ x: 0, y: 0 }}
+        end={{ x: 1, y: 1 }}
+        style={styles.gradient}
+      >
+        <Ionicons name={action.icon} size={24} color="#fff" />
+        <View>
+          <Text style={styles.title}>{action.title}</Text>
+        </View>
+      </LinearGradient>
     </Pressable>
   );
 };

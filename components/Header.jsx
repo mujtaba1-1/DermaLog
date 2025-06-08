@@ -1,5 +1,6 @@
 import { StyleSheet, Text, View, Pressable } from 'react-native';
 import { Ionicons } from '@expo/vector-icons';
+import { useRouter } from 'expo-router';
 
 const screens = {
   Dashboard: {
@@ -26,6 +27,7 @@ const screens = {
 
 const Header = ({screen, showProfile = false}) => {
   const {heading, subHeading} = screens[screen] || {heading: '', subHeading: ''};
+  const router = useRouter(); 
 
   if (!showProfile) {
     return (
@@ -38,7 +40,7 @@ const Header = ({screen, showProfile = false}) => {
 
   return (
     <>
-      <View style={styles.header}>
+      <View style={[styles.header, {flexDirection: 'row', justifyContent: 'space-between', alignItems: 'center',}]}>
         <View>
           <Text style={styles.heading}>{heading}</Text>
           <Text style={styles.subHeading}>{subHeading}</Text>
@@ -47,6 +49,7 @@ const Header = ({screen, showProfile = false}) => {
           accessibilityLabel='Profile Button'
           accessibilityHint='Navigate to your profile'
           style={({pressed}) => [styles.profileBtn, pressed && {backgroundColor: '#E5E7EB'}]}
+          onPress={() => router.push('/profile')}
         >
           <Ionicons name='person-outline' size={20} />
         </Pressable>
@@ -62,10 +65,10 @@ const styles = StyleSheet.create({
     header: {
       borderBottomWidth: 1,
       borderBottomColor: '#F3F4F6',
-      padding: 16,
-      flexDirection: 'row',
-      justifyContent: 'space-between',
-      alignItems: 'center'
+      paddingHorizontal: 16,
+      paddingBottom: 16,
+      paddingTop: 32,
+      backgroundColor: '#fff'
     },
     heading: {
       fontSize: 24,
