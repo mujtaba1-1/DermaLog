@@ -1,5 +1,4 @@
-import { ScrollView, StyleSheet, Text, View } from 'react-native';
-import React from 'react';
+import { ScrollView, StyleSheet, View } from 'react-native';
 import Header from '../components/Header';
 import TitleText from '../components/TitleText';
 import QuickActionCard from '../components/QuickActionCard';
