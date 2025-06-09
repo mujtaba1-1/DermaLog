@@ -18,7 +18,7 @@ const quickActions = {
     title: 'Log Symptoms',
     colorOne: '#397FF5',
     colorTwo: '#2766EC',
-    route: '/logs'  
+    route: '/logs/add-log'  
   },
   progress: {
     icon: 'trending-up-outline',
