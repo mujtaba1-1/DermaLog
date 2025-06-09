@@ -16,9 +16,9 @@ export default function LogsLayout() {
                 headerTitleAlign: 'center',
                 headerStyle: {
                     backgroundColor: '#fff',
+                    
                 },
                 headerTintColor: '#000',
-                headerShadowVisible: false
             }}
         />
     </Stack>

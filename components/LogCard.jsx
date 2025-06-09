@@ -3,7 +3,6 @@ import React from 'react'
 import TitleText from './TitleText'
 import { Ionicons } from '@expo/vector-icons';
 import SymptomStat from './SymptomStat';
-import Trigger from './Trigger';
 
 const LogCard = ({area}) => {
   return (
@@ -22,14 +21,7 @@ const LogCard = ({area}) => {
       <View style={{flexDirection: 'column', gap: 10, marginBottom: 8}}>
         <SymptomStat type={"Itchiness"} score={2}></SymptomStat>
         <SymptomStat type={"Redness"} score={4}></SymptomStat>
-        <SymptomStat type={"Itchiness"} score={9}></SymptomStat>
-      </View>
-      <View>
-        <TitleText style={{fontSize: 16}}>Potential Triggers</TitleText>
-        <View style={{flexDirection: 'row', gap: 10, marginBottom: 8, flexWrap: 'wrap'}}>
-            <Trigger trigger={"Stress"} />
-            <Trigger trigger={"Weather"} />
-        </View>
+        <SymptomStat type={"Dryness"} score={9}></SymptomStat>
       </View>
       <View>
         <TitleText style={{fontSize: 16}}>Notes</TitleText>
