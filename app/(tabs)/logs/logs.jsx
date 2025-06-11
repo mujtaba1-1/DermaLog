@@ -1,29 +1,18 @@
 import { StyleSheet, ScrollView, Pressable, Text, View } from 'react-native';
 import { useRouter } from 'expo-router';
-import Header from '../../../components/Header'
+import { useState, useEffect } from 'react';
 import { Ionicons } from '@expo/vector-icons';
-import LogCard from '../../../components/LogCard';
-import { useState } from 'react';
+import { useLogs } from '../../../context/LogContext';
 
-const areaGroups = {
-  "Hands": [
-    { id: 1, date: "2024-06-09" },
-    { id: 2, date: "2024-06-08" }
-  ],
-  "Face": [
-    { id: 3, date: "2024-06-09" },
-    { id: 4, date: "2024-06-07" }
-  ],
-  "Arms": [],
-  "Legs": [],
-  "Torso": [],
-  "Feet": []
-  // Add more areas as needed
-};
+import Header from '../../../components/Header'
+import LogCard from '../../../components/LogCard';
+
 
 const Logs = () => {
   const router = useRouter();
   const [expandedArea, setExpandedArea] = useState(null);
+  
+  const {areaGroups, loading} = useLogs();
 
   const toggleArea = (area) => {
     setExpandedArea(prev => prev === area ? null : area);
@@ -58,7 +47,7 @@ const Logs = () => {
             {expandedArea === area && (
               <View style={styles.logsContainer}>
                 {logs.map(log => (
-                  <LogCard key={log.id} area={area} />
+                  <LogCard key={log.id} data={log} />
                 ))}
               </View>
             )}

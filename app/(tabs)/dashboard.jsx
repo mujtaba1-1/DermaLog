@@ -1,10 +1,14 @@
 import { ScrollView, StyleSheet, View } from 'react-native';
+import { useLogs } from '../../context/LogContext';
+
 import Header from '../../components/Header';
 import TitleText from '../../components/TitleText';
 import QuickActionCard from '../../components/QuickActionCard';
 import SymptomOverviewCard from '../../components/SymptomOverviewCard';
 
 const DashboardScreen = () => {
+  const { areaGroups, loading } = useLogs();
+
   return (
     <>
     <Header screen={"Dashboard"} showProfile={true}/>
@@ -21,9 +25,16 @@ const DashboardScreen = () => {
       {/* Symptom Overview */}
       <TitleText style={styles.titleMargin}>Symptom Overview</TitleText>
       <View>
-        <SymptomOverviewCard area={"Hands"} />
-        <SymptomOverviewCard area={"Face"} />
-        <SymptomOverviewCard area={"Arms"} />
+        {loading ? (
+          <TitleText>Loading...</TitleText>
+        ) : (
+          Object.keys(areaGroups).map((area) => {
+            if (!areaGroups[area].length) {
+              return null;
+            }
+            return <SymptomOverviewCard key={area} area={area} data={areaGroups[area]}/>;
+          })
+        )}
       </View>
     </ScrollView>
     </>

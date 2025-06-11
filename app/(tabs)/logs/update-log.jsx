@@ -1,40 +1,27 @@
 import { Pressable, ScrollView, StyleSheet, Text, TextInput, View, KeyboardAvoidingView} from 'react-native'
-import { useState, useEffect } from 'react'
+import { useState } from 'react'
 import { Ionicons } from '@expo/vector-icons'
 import { useNavigation, StackActions, CommonActions } from '@react-navigation/native';
-import { createLog } from '../../../api/logService';
+import { updateLog } from '../../../api/logService';
 import { useLogs } from '../../../context/LogContext';
+import { useLocalSearchParams } from 'expo-router';
 
 import TitleText from '../../../components/TitleText'
 
 const bodyParts = ['Hands', 'Face', 'Arms', 'Legs', 'Torso', 'Feet']
 
-const AddLog = () => {
-  const [selectedPart, setSelectedPart] = useState(null)
-  const [itchinessRating, setItchinessRating] = useState(null)
-  const [rednessRating, setRednessRating] = useState(null)
-  const [drynessRating, setDrynessRating] = useState(null)
-  const [additionalInformation, setAdditionalInformation] = useState(null)
+const UpdateLog = () => {
+
+  const { logId, area, itchiness, redness, dryness, notes } = useLocalSearchParams();
+
+  const [selectedPart, setSelectedPart] = useState(area)
+  const [itchinessRating, setItchinessRating] = useState(Number(itchiness))
+  const [rednessRating, setRednessRating] = useState(Number(redness))
+  const [drynessRating, setDrynessRating] = useState(Number(dryness))
+  const [additionalInformation, setAdditionalInformation] = useState(notes)
 
   const navigation = useNavigation()
   const { refreshLogs } = useLogs();
-
-  useEffect(() => {
-    const routes = navigation.getState()?.routes
-    const hasLogs = routes?.some(r => r.name === 'logs')
-
-    if (!hasLogs) {
-      navigation.dispatch(
-        CommonActions.reset({
-          index: 1,
-          routes: [
-            { name: 'logs' },
-            { name: 'add-log' },
-          ],
-        })
-      );
-    }
-  }, []);
 
   const createLogData = () => {
     return {
@@ -47,12 +34,12 @@ const AddLog = () => {
     }
   }
 
-  const handleAddLog = async (logData) => {
+  const handleUpdateLog = async (logData) => {
     try {
-      const newLog = await createLog(logData);
-      console.log('Log created successfully:', newLog);
+      const newLog = await updateLog(logId, logData);
+      console.log('Log updated successfully:', newLog);
     } catch (error) { 
-      console.error('Error creating log:', error);
+      console.error('Error updating log:', error);
     } finally {
       refreshLogs();
       navigation.dispatch(StackActions.popToTop())
@@ -144,10 +131,10 @@ const AddLog = () => {
 
             <Pressable 
               style={({pressed}) => [styles.addLogButton, pressed && styles.pressed]}
-              onPress={() => handleAddLog(createLogData())}
+              onPress={() => handleUpdateLog(createLogData())}
             >
-              <Ionicons name='add-outline' color='#fff' size={24}/>
-              <Text style={{fontSize: 16, fontWeight: '600', color: '#fff'}}>Add New Log</Text>
+              <Ionicons name='create-outline' color='#fff' size={24}/>
+              <Text style={{fontSize: 16, fontWeight: '600', color: '#fff'}}>Update Log</Text>
             </Pressable>
           </>
         )}
@@ -156,7 +143,7 @@ const AddLog = () => {
   )
 }
 
-export default AddLog
+export default UpdateLog
 
 const styles = StyleSheet.create({
   container: {
