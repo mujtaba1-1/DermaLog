@@ -1,4 +1,4 @@
-import { ScrollView, StyleSheet, View } from 'react-native';
+import { ScrollView, StyleSheet, View, ActivityIndicator } from 'react-native';
 import { useLogs } from '../../context/LogContext';
 
 import Header from '../../components/Header';
@@ -24,17 +24,18 @@ const DashboardScreen = () => {
 
       {/* Symptom Overview */}
       <TitleText style={styles.titleMargin}>Symptom Overview</TitleText>
-      <View>
+      <View style={loading ? { height: '100%', justifyContent: 'center'} : {}}>
         {loading ? (
-          <TitleText>Loading...</TitleText>
-        ) : (
-          Object.keys(areaGroups).map((area) => {
-            if (!areaGroups[area].length) {
-              return null;
-            }
-            return <SymptomOverviewCard key={area} area={area} data={areaGroups[area]}/>;
-          })
-        )}
+            <ActivityIndicator size="large" color="#397FF5" />
+          ) : (
+            Object.keys(areaGroups).map((area) => {
+              if (!areaGroups[area].length) {
+                return null;
+              }
+              return <SymptomOverviewCard key={area} area={area} data={areaGroups[area]}/>;
+            })
+          )
+        }
       </View>
     </ScrollView>
     </>

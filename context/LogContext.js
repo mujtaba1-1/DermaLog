@@ -36,7 +36,7 @@ export const LogProvider = ({children}) => {
         setLogs(data);
         setAreaGroups(groupLogsByArea(data));
         } catch (err) {
-        console.error("Failed to fetch logs", err);
+        console.log("Failed to fetch logs", err);
         } finally {
         setLoading(false);
         }

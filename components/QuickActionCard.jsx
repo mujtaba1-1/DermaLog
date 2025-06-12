@@ -1,7 +1,7 @@
 import { StyleSheet, Text, View, Pressable, Dimensions } from 'react-native';
 import { Ionicons } from '@expo/vector-icons';
 import { LinearGradient } from 'expo-linear-gradient';
-import React from 'react';
+import { useLogs } from '../context/LogContext';
 import { useRouter } from 'expo-router';  
 
 const quickActions = {
@@ -32,6 +32,7 @@ const quickActions = {
 const QuickActionCard = ({ actionKey }) => {
   const action = quickActions[actionKey];
   const router = useRouter();  
+  const { loading } = useLogs();
 
   if (!action) return null;
 
@@ -51,6 +52,7 @@ const QuickActionCard = ({ actionKey }) => {
         { width: cardWidth },
         pressed && styles.pressed
       ]}
+      disabled={loading}
     >
       <LinearGradient
         colors={[action.colorOne, action.colorTwo]}

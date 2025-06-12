@@ -1,4 +1,4 @@
-import { StyleSheet, ScrollView, Pressable, Text, View } from 'react-native';
+import { StyleSheet, ScrollView, Pressable, Text, View, ActivityIndicator } from 'react-native';
 import { useRouter } from 'expo-router';
 import { useState, useEffect } from 'react';
 import { Ionicons } from '@expo/vector-icons';
@@ -25,34 +25,41 @@ const Logs = () => {
         <Pressable 
           style={({pressed}) => [styles.addLogButton, pressed && styles.pressed]}
           onPress={() => router.push('/logs/add-log')}
+          disabled={loading}
         >
           <Ionicons name='add-outline' color='#fff' size={24}/>
           <Text style={{fontSize: 16, fontWeight: '600', color: '#fff'}}>Add New Log</Text>
         </Pressable>
 
         {/* Grouped Log Cards */}
-        {Object.entries(areaGroups).map(([area, logs]) => (
-          <View key={area} style={styles.areaGroup}>
-            <Pressable 
-              onPress={() => toggleArea(area)}
-              style={styles.areaHeader}
-            >
-              <Text style={styles.areaTitle}>{area}</Text>
-              <Ionicons 
-                name={expandedArea === area ? 'chevron-up' : 'chevron-down'} 
-                size={20} 
-                color="#666"
-              />
-            </Pressable>
-            {expandedArea === area && (
-              <View style={styles.logsContainer}>
-                {logs.map(log => (
-                  <LogCard key={log.id} data={log} />
-                ))}
+        <View style={loading ? { height: '100%', justifyContent: 'center'} : {}}>
+        {loading ? (
+            <ActivityIndicator size="large" color="#397FF5" />
+          ) : 
+            Object.entries(areaGroups).map(([area, logs]) => (
+              <View key={area} style={styles.areaGroup}>
+                <Pressable 
+                  onPress={() => toggleArea(area)}
+                  style={styles.areaHeader}
+                >
+                  <Text style={styles.areaTitle}>{area}</Text>
+                  <Ionicons 
+                    name={expandedArea === area ? 'chevron-up' : 'chevron-down'} 
+                    size={20} 
+                    color="#666"
+                  />
+                </Pressable>
+                {expandedArea === area && (
+                  <View style={styles.logsContainer}>
+                    {logs.map(log => (
+                      <LogCard key={log.id} data={log} />
+                    ))}
+                  </View>
+                )}
               </View>
-            )}
-          </View>
-        ))}
+            ))
+        }
+        </View>
       </ScrollView>
     </>
   );
