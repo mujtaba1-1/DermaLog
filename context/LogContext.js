@@ -28,6 +28,7 @@ export const LogProvider = ({children}) => {
     const [logs, setLogs] = useState([]);
     const [areaGroups, setAreaGroups] = useState({});
     const [loading, setLoading] = useState(true);
+    const [error, setError] = useState(false);
 
     const fetchLogs = async () => {
         try {
@@ -35,8 +36,10 @@ export const LogProvider = ({children}) => {
             const data = await getLogs();
             setLogs(data);
             setAreaGroups(groupLogsByArea(data));
+            setError(false);
         } catch (err) {
             console.log("Failed to fetch logs", err);
+            setError(true);
         } finally {
             setLoading(false);
         }
@@ -47,7 +50,7 @@ export const LogProvider = ({children}) => {
     }, []);
 
     return (
-        <LogContext.Provider value={{ logs, areaGroups, loading, refreshLogs: fetchLogs }}>
+        <LogContext.Provider value={{ logs, areaGroups, loading, error, refreshLogs: fetchLogs }}>
             {children}
         </LogContext.Provider>
     );

@@ -6,13 +6,14 @@ import { useLogs } from '../../../context/LogContext';
 
 import Header from '../../../components/Header'
 import LogCard from '../../../components/LogCard';
+import ConnectionError from '../../../components/ConnectionError';
 
 
 const Logs = () => {
   const router = useRouter();
   const [expandedArea, setExpandedArea] = useState(null);
   
-  const {areaGroups, loading} = useLogs();
+  const {areaGroups, loading, error} = useLogs();
 
   const toggleArea = (area) => {
     setExpandedArea(prev => prev === area ? null : area);
@@ -32,10 +33,10 @@ const Logs = () => {
         </Pressable>
 
         {/* Grouped Log Cards */}
-        <View style={loading ? { height: '100%', justifyContent: 'center'} : {}}>
+        <View style={loading || error ? { height: '70%', justifyContent: 'center'} : {}}>
         {loading ? (
             <ActivityIndicator size="large" color="#397FF5" />
-          ) : 
+          ) : error ? (<ConnectionError />) : 
             Object.entries(areaGroups).map(([area, logs]) => (
               <View key={area} style={styles.areaGroup}>
                 <Pressable 

@@ -1,13 +1,14 @@
-import { ScrollView, StyleSheet, View, ActivityIndicator } from 'react-native';
+import { ScrollView, StyleSheet, View, Text, ActivityIndicator } from 'react-native';
 import { useLogs } from '../../context/LogContext';
 
 import Header from '../../components/Header';
 import TitleText from '../../components/TitleText';
 import QuickActionCard from '../../components/QuickActionCard';
 import SymptomOverviewCard from '../../components/SymptomOverviewCard';
+import ConnectionError from '../../components/ConnectionError';
 
 const DashboardScreen = () => {
-  const { areaGroups, loading } = useLogs();
+  const { areaGroups, loading, error } = useLogs();
 
   return (
     <>
@@ -24,10 +25,10 @@ const DashboardScreen = () => {
 
       {/* Symptom Overview */}
       <TitleText style={styles.titleMargin}>Symptom Overview</TitleText>
-      <View style={loading ? { height: '100%', justifyContent: 'center'} : {}}>
+      <View style={loading || error ? { height: '70%', justifyContent: 'center'} : {}}>
         {loading ? (
             <ActivityIndicator size="large" color="#397FF5" />
-          ) : (
+          ) : error ? (<ConnectionError />) : (
             Object.keys(areaGroups).map((area) => {
               if (!areaGroups[area].length) {
                 return null;
