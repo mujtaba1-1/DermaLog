@@ -1,10 +1,8 @@
-import axios from "axios";
-
-const API_BASE_URL = "http://192.168.0.101:8080"
+import api from "./apiCreation";
 
 export const createLog = async (logData) => {
     try {
-        const response = await axios.post(`${API_BASE_URL}/log/create`, logData);
+        const response = await api.post(`/log/create`, logData);
         return response.data;
     } catch (error) {
         console.log("Error creating log:", error);
@@ -14,7 +12,7 @@ export const createLog = async (logData) => {
 
 export const getLogs = async () => {
     try {
-        const response = await axios.get(`${API_BASE_URL}/logs`);
+        const response = await api.get(`/logs`);
         return response.data;
     } catch (error) {
         console.log("Error getting logs:", error);
@@ -24,7 +22,7 @@ export const getLogs = async () => {
 
 export const updateLog = async (id, logData) => {
     try {
-        const response = await axios.put(`${API_BASE_URL}/log/${id}`, logData);
+        const response = await api.put(`/log/${id}`, logData);
         return response.data;
     } catch (error) {
         console.log("Error updating log:", error);
@@ -34,7 +32,7 @@ export const updateLog = async (id, logData) => {
 
 export const deleteLog = async (id) => {
     try {
-        const response = await axios.delete(`${API_BASE_URL}/log/${id}`);
+        const response = await api.delete(`/log/${id}`);
     } catch (error) {
         console.log("Error deleting log:", error);
         throw error;

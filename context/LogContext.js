@@ -31,14 +31,14 @@ export const LogProvider = ({children}) => {
 
     const fetchLogs = async () => {
         try {
-        setLoading(true);
-        const data = await getLogs();
-        setLogs(data);
-        setAreaGroups(groupLogsByArea(data));
+            setLoading(true);
+            const data = await getLogs();
+            setLogs(data);
+            setAreaGroups(groupLogsByArea(data));
         } catch (err) {
-        console.log("Failed to fetch logs", err);
+            console.log("Failed to fetch logs", err);
         } finally {
-        setLoading(false);
+            setLoading(false);
         }
     }
 
