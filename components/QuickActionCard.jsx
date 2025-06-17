@@ -18,7 +18,7 @@ const quickActions = {
     title: 'Log Symptoms',
     colorOne: '#397FF5',
     colorTwo: '#2766EC',
-    route: '/logs/add-log'  
+    route: '/log/add-log'  
   },
   progress: {
     icon: 'trending-up-outline',
@@ -32,9 +32,14 @@ const quickActions = {
 const QuickActionCard = ({ actionKey }) => {
   const action = quickActions[actionKey];
   const router = useRouter();  
-  const { loading } = useLogs();
+  const { loading, error } = useLogs();
 
   if (!action) return null;
+
+  if (error && actionKey === 'logs') {
+    console.log(loading, error)
+    action.route = '/log/logs'
+  } 
 
   const screenWidth = Dimensions.get('window').width;
   const availableWidth = screenWidth - 32 - (quickActions.items - 1) * 8;
@@ -52,7 +57,6 @@ const QuickActionCard = ({ actionKey }) => {
         { width: cardWidth },
         pressed && styles.pressed
       ]}
-      disabled={loading}
     >
       <LinearGradient
         colors={[action.colorOne, action.colorTwo]}

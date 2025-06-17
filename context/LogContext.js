@@ -33,6 +33,7 @@ export const LogProvider = ({children}) => {
     const fetchLogs = async () => {
         try {
             setLoading(true);
+            console.log("Loading")
             const data = await getLogs();
             setLogs(data);
             setAreaGroups(groupLogsByArea(data));

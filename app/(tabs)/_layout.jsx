@@ -1,7 +1,28 @@
-import { Tabs } from 'expo-router';
+import { Tabs, router } from 'expo-router';
 import { Ionicons } from "@expo/vector-icons"
+import { useState, useEffect } from 'react';
+import AsyncStorage from '@react-native-async-storage/async-storage';
 
 export default function TabLayout() {
+  
+  const [checkingAuth, setCheckingAuth] = useState(true)
+
+  useEffect(() => {
+    const checkAuth = async () => {
+      const token = await AsyncStorage.getItem('jwt')
+      console.log(token);
+      if (!token) {
+        router.replace('/login')
+      } else {
+        setCheckingAuth(false);
+      }
+    }
+
+    checkAuth();
+  }, [])
+
+  
+
   return (
     <Tabs 
       screenOptions={{ 
@@ -30,7 +51,7 @@ export default function TabLayout() {
         }}
       />
       <Tabs.Screen
-        name="logs"
+        name="log"
         options={{
           title: 'Logs',
           tabBarIcon: ({ color }) => (

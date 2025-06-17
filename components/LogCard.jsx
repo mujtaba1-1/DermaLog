@@ -7,8 +7,8 @@ import { useLogs } from '../context/LogContext';
 import TitleText from './TitleText'
 import SymptomStat from './SymptomStat';
 
-const formatDate = (dateString) => {
-  const date = new Date(dateString);
+const formatDate = (timestamp) => {
+  const date = new Date(timestamp);
 
   const day = date.getDate();
   const month = date.toLocaleString('default', { month: 'short' });
@@ -23,7 +23,7 @@ const LogCard = ({data}) => {
 
   const handleEditLog = () => {
     router.push({
-      pathname: '/logs/update-log',
+      pathname: '/log/update-log',
       params: {
         logId: data.id,
         area: data.area,
@@ -43,7 +43,7 @@ const LogCard = ({data}) => {
   return (
     <View style={styles.container}>
       <View style={{flexDirection: 'row', justifyContent: 'space-between', alignItems: 'center', marginBottom: 8}}>
-          <TitleText style={{fontSize: 16}}>{formatDate(data.date)}</TitleText>
+          <TitleText style={{fontSize: 16}}>{formatDate(data.timestamp)}</TitleText>
           <View style={{ flexDirection: 'row', alignItems: 'center', gap: 8 }}>
             <Pressable 
               style={({pressed}) => pressed && styles.pressed}

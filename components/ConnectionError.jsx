@@ -12,7 +12,7 @@ const ConnectionError = () => {
     <View style={styles.container}>
       <Ionicons name="cloud-offline-outline" size={48} color="#EF4444" style={{ marginBottom: 12 }} />
       <TitleText style={styles.title}>Connection Error</TitleText>
-      <Text style={styles.message}>Oops! We're having trouble reaching the server.</Text>
+      <Text style={styles.message}>Oops! We&apos;re having trouble reaching the server.</Text>
       <Text style={styles.message}>Please try again later!</Text>
       <Pressable 
         style={({ pressed }) => [styles.retryButton, pressed && styles.pressed]}

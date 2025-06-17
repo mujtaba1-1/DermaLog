@@ -25,7 +25,7 @@ const Logs = () => {
       <ScrollView style={styles.container}>
         <Pressable 
           style={({pressed}) => [styles.addLogButton, pressed && styles.pressed]}
-          onPress={() => router.push('/logs/add-log')}
+          onPress={() => router.push('/log/add-log')}
           disabled={loading}
         >
           <Ionicons name='add-outline' color='#fff' size={24}/>
@@ -52,7 +52,7 @@ const Logs = () => {
                 </Pressable>
                 {expandedArea === area && (
                   <View style={styles.logsContainer}>
-                    {logs.map(log => (
+                    {[...logs].reverse().map(log => (
                       <LogCard key={log.id} data={log} />
                     ))}
                   </View>
