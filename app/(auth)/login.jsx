@@ -1,21 +1,26 @@
 import React, { useState } from 'react';
-import { View, Text, TextInput, TouchableOpacity, StyleSheet, Alert } from 'react-native';
+import { View, Text, TextInput, TouchableOpacity, StyleSheet, Alert, ActivityIndicator } from 'react-native';
 import { useRouter } from 'expo-router';
 import { login } from '../../api/authService';
 
 const Login = () => {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
+  const [connecting, setConnecting] = useState(false)
+
   const router = useRouter();
 
   const handleLogin = async () => {
     
     if (email && password) {
       try {
+        setConnecting(true)
         await login({email, password})
+        setConnecting(false)
         router.push('/dashboard')
       } catch (error) {
         Alert.alert('Error', 'Incorrect email or password')
+        setConnecting(false)
       }
     } else {
       Alert.alert('Error', 'Please enter both email and password');
@@ -43,6 +48,7 @@ const Login = () => {
             style={styles.input}
             keyboardType="email-address"
             autoCapitalize="none"
+            editable={!connecting}
           />
         </View>
 
@@ -54,16 +60,20 @@ const Login = () => {
             onChangeText={setPassword}
             style={styles.input}
             secureTextEntry
+            editable={!connecting}
           />
         </View>
 
-        <TouchableOpacity style={styles.button} onPress={handleLogin}>
-          <Text style={styles.buttonText}>Login</Text>
-        </TouchableOpacity>
-
-        <TouchableOpacity style={styles.outlineButton} onPress={handleSignup}>
-          <Text style={styles.outlineButtonText}>Sign up</Text>
-        </TouchableOpacity>
+        {!connecting ? 
+          (<>
+            <TouchableOpacity style={styles.button} onPress={handleLogin} disabled={connecting}>
+            <Text style={styles.buttonText}>Login</Text>
+                    </TouchableOpacity>
+            
+                    <TouchableOpacity style={styles.outlineButton} onPress={handleSignup} disabled={connecting}>
+            <Text style={styles.outlineButtonText}>Sign up</Text>
+                    </TouchableOpacity>
+          </>) : <ActivityIndicator size="large" color="#397FF5" />}
       </View>
     </View>
   );

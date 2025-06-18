@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { View, Text, TextInput, TouchableOpacity, StyleSheet, Alert } from 'react-native';
+import { View, Text, TextInput, TouchableOpacity, StyleSheet, Alert, ActivityIndicator } from 'react-native';
 import { useRouter } from 'expo-router';
 import { login, register } from '../../api/authService';
 
@@ -7,23 +7,30 @@ const Register = () => {
   const [username, setUsername] = useState('');
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
+  const [connecting, setConnecting] = useState(false)
+
   const router = useRouter();
 
   const handleRegister = async () => {
     
     if (username && email && password) {
       try {
+        setConnecting(true)
         await register({username, email, password})
         await login({email, password})
+        setConnecting(false)
         router.replace('/dashboard')
       } catch (error) {
-        const message = error.response?.data 
-          ? (typeof error.response.data === 'string' 
-              ? error.response.data 
-              : JSON.stringify(error.response.data))
-          : error.message || 'An unknown error occurred';
+        let message;
+
+        if (error.response && error.response.data) {
+          message = error.response.data
+        } else {
+          message = 'An unknown error occurred'
+        }
 
         Alert.alert('Error', message);
+        setConnecting(false)
       }
     } else {
       Alert.alert('Error', 'Please fill in all fields');
@@ -50,6 +57,7 @@ const Register = () => {
             onChangeText={setUsername}
             style={styles.input}
             autoCapitalize="none"
+            editable={!connecting}
           />
         </View>
 
@@ -62,6 +70,7 @@ const Register = () => {
             style={styles.input}
             keyboardType="email-address"
             autoCapitalize="none"
+            editable={!connecting}
           />
         </View>
 
@@ -73,16 +82,18 @@ const Register = () => {
             onChangeText={setPassword}
             style={styles.input}
             secureTextEntry
+            editable={!connecting}
           />
         </View>
 
-        <TouchableOpacity style={styles.button} onPress={handleRegister}>
-          <Text style={styles.buttonText}>Sign up</Text>
-        </TouchableOpacity>
-
-        <TouchableOpacity style={styles.outlineButton} onPress={goToLogin}>
-          <Text style={styles.outlineButtonText}>Already have an account? Login</Text>
-        </TouchableOpacity>
+        {!connecting ? (<>
+          <TouchableOpacity style={styles.button} onPress={handleRegister}>
+            <Text style={styles.buttonText}>Sign up</Text>
+          </TouchableOpacity>
+          <TouchableOpacity style={styles.outlineButton} onPress={goToLogin}>
+            <Text style={styles.outlineButtonText}>Already have an account? Login</Text>
+          </TouchableOpacity>
+        </>) : <ActivityIndicator size="large" color="#397FF5" /> }
       </View>
     </View>
   );
