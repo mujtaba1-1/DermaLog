@@ -1,4 +1,4 @@
-import { ScrollView, StyleSheet, View, Text, ActivityIndicator } from 'react-native';
+import { ScrollView, StyleSheet, View, ActivityIndicator } from 'react-native';
 import { useLogs } from '../../context/LogContext';
 
 import Header from '../../components/Header';

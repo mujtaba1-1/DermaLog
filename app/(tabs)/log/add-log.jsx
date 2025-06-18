@@ -1,4 +1,4 @@
-import { Pressable, ScrollView, StyleSheet, Text, TextInput, View, KeyboardAvoidingView} from 'react-native'
+import { Pressable, ScrollView, StyleSheet, Text, TextInput, Alert, View, KeyboardAvoidingView} from 'react-native'
 import { useState, useEffect } from 'react'
 import { Ionicons } from '@expo/vector-icons'
 import { useNavigation, StackActions, CommonActions } from '@react-navigation/native';
@@ -48,14 +48,17 @@ const AddLog = () => {
   }
 
   const handleAddLog = async (logData) => {
-    try {
-      const newLog = await createLog(logData);
-      console.log('Log created successfully:', newLog);
-    } catch (error) { 
-      console.error('Error creating log:', error);
-    } finally {
-      refreshLogs();
-      navigation.dispatch(StackActions.popToTop())
+    if (itchinessRating && rednessRating && drynessRating && additionalInformation) {
+      try {
+        const newLog = await createLog(logData);
+      } catch (error) { 
+        Alert.alert('Error', 'Error creating log.')
+      } finally {
+        refreshLogs();
+        navigation.dispatch(StackActions.popToTop())
+      }
+    } else {
+      Alert.alert('Error', 'Please fill in all fields.')
     }
   }
 
