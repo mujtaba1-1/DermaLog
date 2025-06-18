@@ -67,12 +67,12 @@ const Login = () => {
         {!connecting ? 
           (<>
             <TouchableOpacity style={styles.button} onPress={handleLogin} disabled={connecting}>
-            <Text style={styles.buttonText}>Login</Text>
-                    </TouchableOpacity>
+              <Text style={styles.buttonText}>Login</Text>
+            </TouchableOpacity>
             
-                    <TouchableOpacity style={styles.outlineButton} onPress={handleSignup} disabled={connecting}>
-            <Text style={styles.outlineButtonText}>Sign up</Text>
-                    </TouchableOpacity>
+            <TouchableOpacity style={styles.outlineButton} onPress={handleSignup} disabled={connecting}>
+              <Text style={styles.outlineButtonText}>Sign up</Text>
+            </TouchableOpacity>
           </>) : <ActivityIndicator size="large" color="#397FF5" />}
       </View>
     </View>

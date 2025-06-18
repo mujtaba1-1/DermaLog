@@ -19,3 +19,11 @@ export const register = async (userData) => {
         throw error;
     }
 }
+
+export const logout = async () => {
+    try {
+        await AsyncStorage.removeItem('jwt')
+    } catch (error) {
+        throw error
+    }
+}
