@@ -1,8 +1,12 @@
 import api from "./apiCreation";
+import AsyncStorage from '@react-native-async-storage/async-storage';
 
 export const createLog = async (logData) => {
     try {
-        const response = await api.post(`/log/create`, logData);
+        const userString = await AsyncStorage.getItem('user');
+        const userId = JSON.parse(userString).id;
+
+        const response = await api.post(`/log/create/${userId}`, logData);
         return response.data;
     } catch (error) {
         console.log("Error creating log:", error);
@@ -12,7 +16,10 @@ export const createLog = async (logData) => {
 
 export const getLogs = async () => {
     try {
-        const response = await api.get(`/logs`);
+        const userString = await AsyncStorage.getItem('user');
+        const userId = JSON.parse(userString).id;
+
+        const response = await api.get(`/logs/${userId}`);
         return response.data;
     } catch (error) {
         console.log("Error getting logs:", error);

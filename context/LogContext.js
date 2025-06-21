@@ -1,6 +1,8 @@
 import { createContext, useState, useEffect, useContext } from "react";
 import { getLogs } from "../api/logService";
 
+import AsyncStorage from '@react-native-async-storage/async-storage';
+
 const LogContext = createContext();
 
 export const useLogs = () => useContext(LogContext);

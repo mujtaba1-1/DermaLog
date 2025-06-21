@@ -52,7 +52,7 @@ const Logs = () => {
                 </Pressable>
                 {expandedArea === area && (
                   <View style={styles.logsContainer}>
-                    {[...logs].reverse().map(log => (
+                    {[...logs].map(log => (
                       <LogCard key={log.id} data={log} />
                     ))}
                   </View>

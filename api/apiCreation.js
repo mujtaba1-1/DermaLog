@@ -3,7 +3,7 @@ import AsyncStorage from '@react-native-async-storage/async-storage';
 import { router } from 'expo-router';
 
 const api = axios.create({
-  baseURL: 'http://192.168.0.100:8080',
+  baseURL: 'http://192.168.0.101:8080',
   timeout: 5000,
 });
 

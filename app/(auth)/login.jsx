@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import { View, Text, TextInput, TouchableOpacity, StyleSheet, Alert, ActivityIndicator } from 'react-native';
 import { useRouter } from 'expo-router';
 import { login } from '../../api/authService';
+import { useLogs } from '../../context/LogContext';
 
 const Login = () => {
   const [email, setEmail] = useState('');
@@ -9,6 +10,7 @@ const Login = () => {
   const [connecting, setConnecting] = useState(false)
 
   const router = useRouter();
+  const { refreshLogs } = useLogs();
 
   const handleLogin = async () => {
     
@@ -17,6 +19,7 @@ const Login = () => {
         setConnecting(true)
         await login({email, password})
         setConnecting(false)
+        await refreshLogs();
         router.push('/dashboard')
       } catch (error) {
         Alert.alert('Error', 'Incorrect email or password')

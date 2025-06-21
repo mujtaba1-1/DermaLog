@@ -38,7 +38,7 @@ const Progress = () => {
 
   const createData = () => {
     const logs = areaGroups?.[selectedPart] ?? [];
-    const data = [...logs].reverse().slice(0, 7).reverse();
+    const data = [...logs].reverse().slice(0, 7);
 
     const jitter = 0.1;
 
@@ -52,7 +52,7 @@ const Progress = () => {
     setDrynessData(dryness)
     setDatesData(dates)
 
-    let streak = 1;
+    let streak = 0;
     for (let i = logs.length - 1; i > 0; i--) {
       const currDate = new Date(logs[i].timestamp)
       const prevDate = new Date(logs[i - 1].timestamp)
@@ -73,12 +73,13 @@ const Progress = () => {
       if (score < bestScore) {
         bestScore = score;
         bestDay = log.timestamp
+        console.log('Best Day:', bestDay, 'Score:', bestScore)
       }
     })
 
     setStreak(streak)
     setBestDay({
-      day: new Date(bestDay).toLocaleDateString('en-GB', { weekday: 'long' }),
+      day: bestDay ? new Date(bestDay).toLocaleDateString('en-GB', { weekday: 'long' }) : 'N/A',
       score: bestScore.toFixed(1)
     })
     
@@ -180,7 +181,7 @@ const Progress = () => {
                 </Text>
               </View>
               <TitleText style={{fontSize: 20, fontWeight: '700', color: '#14532D'}}>{bestDay?.day}</TitleText>
-              <Text style={{color: '#16A34A'}}>Avg: {bestDay?.score}/10</Text>
+              <Text style={{color: '#16A34A'}}>Avg: {bestDay?.score === "Infinity" ? 0 : bestDay.score}/10</Text>
             </View>
             <View style={[styles.infoContainer, {borderColor: '#BFDBFE', backgroundColor: '#EFF6FF'}]}>
               <View style={{ flexDirection: 'row', alignItems: 'center' }}>

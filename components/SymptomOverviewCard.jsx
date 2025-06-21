@@ -41,8 +41,8 @@ const calculateCondition = (log1, log2) => {
 
 const SymptomOverviewCard = ({area, data}) => {
 
-  const latestLog = data[data.length - 1];
-  const previousLog = data.length >= 2 ? data[data.length - 2] : null;
+  const latestLog = data[0];
+  const previousLog = data.length >= 2 ? data[1] : null;
 
   const currentCondition = calculateCondition(previousLog, latestLog);
 

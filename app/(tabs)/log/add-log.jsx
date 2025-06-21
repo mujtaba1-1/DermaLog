@@ -48,7 +48,12 @@ const AddLog = () => {
   }
 
   const handleAddLog = async (logData) => {
-    if (itchinessRating && rednessRating && drynessRating && additionalInformation) {
+    if (
+      itchinessRating !== null && itchinessRating !== undefined &&
+      rednessRating !== null && rednessRating !== undefined &&
+      drynessRating !== null && drynessRating !== undefined &&
+      additionalInformation.trim() !== ''
+    ) {
       try {
         const newLog = await createLog(logData);
       } catch (error) { 
