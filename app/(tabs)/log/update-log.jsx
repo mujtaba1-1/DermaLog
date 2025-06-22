@@ -1,4 +1,4 @@
-import { Pressable, ScrollView, StyleSheet, Text, TextInput, View, KeyboardAvoidingView} from 'react-native'
+import { Pressable, ScrollView, StyleSheet, Text, TextInput, View, KeyboardAvoidingView, Alert} from 'react-native'
 import { useState } from 'react'
 import { Ionicons } from '@expo/vector-icons'
 import { useNavigation, StackActions, CommonActions } from '@react-navigation/native';
@@ -35,14 +35,22 @@ const UpdateLog = () => {
   }
 
   const handleUpdateLog = async (logData) => {
-    try {
-      const newLog = await updateLog(logId, logData);
-      console.log('Log updated successfully:', newLog);
-    } catch (error) { 
-      console.error('Error updating log:', error);
-    } finally {
-      refreshLogs();
-      navigation.dispatch(StackActions.popToTop())
+    if (
+      itchinessRating !== null && itchinessRating !== undefined &&
+      rednessRating !== null && rednessRating !== undefined &&
+      drynessRating !== null && drynessRating !== undefined &&
+      additionalInformation.trim() !== ''
+    ) {
+      try {
+        const newLog = await updateLog(logId, logData);
+      } catch (error) { 
+        Alert.alert('Error', 'Failed to update log. Please try again later.')
+      } finally {
+        refreshLogs();
+        navigation.dispatch(StackActions.popToTop())
+      }
+    } else {
+      Alert.alert('Error', 'Please fill in all fields.')
     }
   }
 

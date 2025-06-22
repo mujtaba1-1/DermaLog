@@ -10,7 +10,6 @@ export default function TabLayout() {
   useEffect(() => {
     const checkAuth = async () => {
       const token = await AsyncStorage.getItem('jwt')
-      console.log(token);
       if (!token) {
         router.replace('/login')
       } else {
