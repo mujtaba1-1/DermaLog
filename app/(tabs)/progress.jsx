@@ -1,6 +1,7 @@
 import { StyleSheet, Text, Dimensions, View, ScrollView, Pressable, ActivityIndicator } from 'react-native'
 import { LineChart } from 'react-native-chart-kit'
 import { useState, useEffect } from 'react'
+import { subDays, format } from 'date-fns';
 import { useLogs } from '../../context/LogContext'
 import { Ionicons } from '@expo/vector-icons'
 
@@ -38,14 +39,40 @@ const Progress = () => {
 
   const createData = () => {
     const logs = areaGroups?.[selectedPart] ?? [];
-    const data = [...logs].reverse().slice(0, 7);
+
+    const logsByDate = logs.reduce((acc, log) => {
+      const date = new Date(log.timestamp).toISOString().slice(0, 10);
+      if (!acc[date]) {
+        acc[date] = [];
+      }
+      acc[date].push(log);
+      return acc;
+    }, {})
+
+    const averageByDate = Object.entries(logsByDate).map(([date, logs]) => {
+      const totalItchiness = logs.reduce((sum, log) => sum + log.itchinessRating, 0);
+      const totalRedness = logs.reduce((sum, log) => sum + log.rednessRating, 0);
+      const totalDryness = logs.reduce((sum, log) => sum + log.drynessRating, 0);
+
+      return {
+        date,
+        averageItchiness: totalItchiness / logs.length,
+        averageRedness: totalRedness / logs.length,
+        averageDryness: totalDryness / logs.length,
+      };
+    });
+
+    const latest7Days = averageByDate
+      .sort((a, b) => new Date(b.date) - new Date(a.date))
+      .slice(0, 7)
+      .reverse();
 
     const jitter = 0.1;
 
-    const itchiness = data.map(log => log.itchinessRating + 0 * jitter);
-    const redness = data.map(log => log.rednessRating + 1 * jitter);
-    const dryness = data.map(log => log.drynessRating + 2 * jitter);
-    const dates = data.map(log => formatDayMonth(log.timestamp));
+    const itchiness = latest7Days.map(day => day.averageItchiness + 0 * jitter);
+    const redness = latest7Days.map(day => day.averageRedness + 1 * jitter);
+    const dryness = latest7Days.map(day => day.averageDryness + 2 * jitter);
+    const dates = latest7Days.map(day => formatDayMonth(day.date));
 
     setItchinessData(itchiness)
     setRednessData(redness)
@@ -53,27 +80,21 @@ const Progress = () => {
     setDatesData(dates)
 
     let streak = 0;
-    for (let i = logs.length - 1; i > 0; i--) {
-      const currDate = new Date(logs[i].timestamp)
-      const prevDate = new Date(logs[i - 1].timestamp)
-      const diff = Math.round((currDate - prevDate) / (1000 * 60 * 60 * 24))
-      if (diff === 1) {
-        streak++
-      }
-      else {
-        break
-      }
-    }
+    let currentDate = new Date().toISOString().slice(0, 10);
+
+    do {
+      streak++;
+      currentDate = format(subDays(new Date(currentDate), 1), 'yyyy-MM-dd');
+    } while (currentDate in logsByDate && logsByDate[currentDate].length > 0)
 
     let bestDay = null
     let bestScore = Infinity
 
-    data.forEach(log => {
-      const score = (log.itchinessRating + log.rednessRating + log.drynessRating) / 3
+    latest7Days.forEach(log => {
+      const score = (log.averageItchiness + log.averageRedness + log.averageDryness) / 3
       if (score < bestScore) {
         bestScore = score;
-        bestDay = log.timestamp
-        console.log('Best Day:', bestDay, 'Score:', bestScore)
+        bestDay = log.date
       }
     })
 
