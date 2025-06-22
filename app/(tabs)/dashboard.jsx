@@ -18,7 +18,6 @@ const DashboardScreen = () => {
       {/* Quick Action */}
       <TitleText style={styles.titleMargin}>Quick Actions</TitleText>
       <View style={{ flexDirection: 'row', justifyContent: 'center', gap: 8}}>
-        <QuickActionCard actionKey={'analysis'}></QuickActionCard>
         <QuickActionCard actionKey={'logs'}></QuickActionCard>
         <QuickActionCard actionKey={'progress'}></QuickActionCard>
       </View>

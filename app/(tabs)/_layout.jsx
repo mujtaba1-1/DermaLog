@@ -20,8 +20,6 @@ export default function TabLayout() {
     checkAuth();
   }, [])
 
-  
-
   return (
     <Tabs 
       screenOptions={{ 
@@ -38,15 +36,6 @@ export default function TabLayout() {
           tabBarIcon: ({ color }) => (
             <Ionicons name="home-outline" size={24} color={color} />
           ),       
-        }}
-      />
-      <Tabs.Screen
-        name="analysis"
-        options={{
-          title: 'Analysis',
-          tabBarIcon: ({ color }) => (
-            <Ionicons name="camera-outline" size={24} color={color} />
-          ), 
         }}
       />
       <Tabs.Screen

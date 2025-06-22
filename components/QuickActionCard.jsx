@@ -5,14 +5,7 @@ import { useLogs } from '../context/LogContext';
 import { useRouter } from 'expo-router';  
 
 const quickActions = {
-  items: 3,
-  analysis: {
-    icon: 'camera-outline',
-    title: 'Skin Analysis',
-    colorOne: '#A652F6',
-    colorTwo: '#9435EB',
-    route: '/analysis'  
-  },
+  items: 2,
   logs: {
     icon: 'add-outline',
     title: 'Log Symptoms',
