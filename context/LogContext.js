@@ -1,8 +1,6 @@
 import { createContext, useState, useEffect, useContext } from "react";
 import { getLogs } from "../api/logService";
 
-import AsyncStorage from '@react-native-async-storage/async-storage';
-
 const LogContext = createContext();
 
 export const useLogs = () => useContext(LogContext);
@@ -35,13 +33,11 @@ export const LogProvider = ({children}) => {
     const fetchLogs = async () => {
         try {
             setLoading(true);
-            console.log("Loading")
             const data = await getLogs();
             setLogs(data);
             setAreaGroups(groupLogsByArea(data));
             setError(false);
         } catch (err) {
-            console.log("Failed to fetch logs", err);
             setError(true);
         } finally {
             setLoading(false);

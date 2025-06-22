@@ -30,7 +30,6 @@ const QuickActionCard = ({ actionKey }) => {
   if (!action) return null;
 
   if (error && actionKey === 'logs') {
-    console.log(loading, error)
     action.route = '/log/logs'
   } 
 

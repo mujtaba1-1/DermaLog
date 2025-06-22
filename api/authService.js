@@ -12,12 +12,10 @@ export const login = async (userData) => {
             email: response.data["email"],
             createdAt: response.data["createdAt"],
         }
-        console.log(user)
         await AsyncStorage.setItem('user', JSON.stringify(user));
 
 
     } catch (error) {
-        console.error('Login error:', error);
         throw error;
     }
 }
