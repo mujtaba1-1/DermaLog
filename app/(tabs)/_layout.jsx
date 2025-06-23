@@ -11,7 +11,7 @@ export default function TabLayout() {
     const checkAuth = async () => {
       const token = await AsyncStorage.getItem('jwt')
       if (!token) {
-        router.replace('/login')
+        router.replace('/index')
       } else {
         setCheckingAuth(false);
       }

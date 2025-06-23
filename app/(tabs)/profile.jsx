@@ -13,7 +13,7 @@ import AsyncStorage from '@react-native-async-storage/async-storage'
 const handleLogout = async () => {
   try {
     await logout()
-    router.replace('/login')
+    router.replace('(auth)')
   } catch (error) {
     Alert.alert('Error', 'Error logging out.')
   }

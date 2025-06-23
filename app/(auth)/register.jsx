@@ -38,7 +38,7 @@ const Register = () => {
   };
 
   const goToLogin = () => {
-    router.replace('/login');
+    router.replace('(auth)');
   };
 
   return (

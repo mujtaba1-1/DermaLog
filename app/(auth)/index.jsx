@@ -37,7 +37,7 @@ const Login = () => {
   return (
     <View style={styles.screen}>
       <View style={styles.header}>
-        <Text style={styles.title}>Eczema Assistant</Text>
+        <Text style={styles.title}>DermaLog</Text>
         <Text style={styles.subtitle}>Your personal tool for managing eczema</Text>
       </View>
 
