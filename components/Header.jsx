@@ -4,7 +4,7 @@ import { useRouter } from 'expo-router';
 
 const screens = {
   Dashboard: {
-    heading: 'Hello, User',
+    heading: 'Hello!',
     subHeading: 'How\'s your skin feeling today?'
   },
   Profile: {

@@ -5,11 +5,16 @@ import { useEffect, useState } from "react";
 import { View, ActivityIndicator } from "react-native";
 import { StatusBar } from "expo-status-bar";
 
+import * as NavigationBar from 'expo-navigation-bar';
+
+
 export default function Layout() {
   const [token, setToken] = useState(null);
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
+
+    NavigationBar.setButtonStyleAsync('dark');
 
     const checkToken = async () => {
       try {
@@ -35,9 +40,9 @@ export default function Layout() {
 
   return (
     <LogProvider>
-      {/* Status bar: black background, light icons */}
-      <StatusBar style="dark" backgroundColor="#ffffff" />
-      
+
+      <StatusBar style="dark"/>
+
       <Stack screenOptions={{ headerShown: false }}>
         {token ? (
           <Stack.Screen name="(tabs)" />

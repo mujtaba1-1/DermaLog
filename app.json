@@ -22,13 +22,15 @@
         "backgroundColor": "#ffffff"
       },
       "edgeToEdgeEnabled": true,
-      "package": "com.emixak.DermaLog",
-      "buildName": "dermaLog.apk"
+      "package": "com.emixak.DermaLog"
     },
     "extra": {
       "eas": {
         "projectId": "f3701938-b0fa-4008-9ad1-ef18dc45e05f"
       }
-    }
+    },
+    "plugins": [
+      "expo-router"
+    ]
   }
 }

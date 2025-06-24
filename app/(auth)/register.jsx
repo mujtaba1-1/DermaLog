@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import { View, Text, TextInput, TouchableOpacity, StyleSheet, Alert, ActivityIndicator } from 'react-native';
 import { useRouter } from 'expo-router';
+import { useLogs } from '../../context/LogContext';
 import { login, register } from '../../api/authService';
 
 const Register = () => {
@@ -10,6 +11,7 @@ const Register = () => {
   const [connecting, setConnecting] = useState(false)
 
   const router = useRouter();
+  const { refreshLogs } = useLogs();
 
   const handleRegister = async () => {
     
@@ -19,6 +21,7 @@ const Register = () => {
         await register({username, email, password})
         await login({email, password})
         setConnecting(false)
+        await refreshLogs();
         router.replace('/dashboard')
       } catch (error) {
         let message;
